@@ -1,16 +1,10 @@
-/**class Journaliste{
-    constructor(nom,biographie,specialite,couleur){
+class Journaliste{
+    constructor(nom,biographie,specialite,couleur) {
         this.nom=nom;
-        this.biographie=biographie;
-        this.specialite=specialite;
-        this.couleur=couleur;
+        this.biograp=biographie;
+        this.specilit=specialite;
+        this.couleu=couleur;
     }
-}**/
-function Journaliste(nom,biographie,specialite,couleur){
-    this.nom=nom;
-    this.biographie=biographie;
-    this.specialit=specialite;
-    this.couleu=couleur;
 }
 function Equipe(){
     this.listeJournaliste=[];
@@ -25,10 +19,10 @@ function Equipe(){
     this.contientPropriete=function (element){
         for (let i=0;i<=this.listeJournaliste.length;i++){
             if (element===this.listeJournaliste[i]){
-                return false;
+                return true;
             }
             else {
-                return true;
+                return false;
             }
         }
 
@@ -42,6 +36,8 @@ function Equipe(){
 }
 
 const equipe = new Equipe();
+
+
 $('form').submit(function (ev){
     const nom = $('#nom').val();
     const bio = $('#biographie').val();
@@ -49,10 +45,20 @@ $('form').submit(function (ev){
     const couleur = $('#couleur').val();
     if(validerFormulaire(bio, specialite, couleur)){
         equipe.ajoutJournaliste(new Journaliste(nom,bio,specialite,couleur));
-        afficheEquipe();
+        //sessionStorage.setItem('journalis',JSON.stringify(data));
+        //afficheEquipe();
     }
     ev.preventDefault();
 })
+function sockahe(){
+    const nom = $('#nom').val();
+    const bio = $('#biographie').val();
+    const specialite = $('#specialite').val();
+    const couleur = $('#couleur').val();
+    const journalis=new Journaliste(nom,bio,specialite,couleur);
+    sessionStorage.setItem('journalist',JSON.stringify(journalis));
+    return true;
+}
 function validerFormulaire(biographie, specialite, couleur){
     $('p.alert').addClass('d-none');
     const $bioMsgErr=$('#biographie + p.alert');
@@ -79,13 +85,23 @@ function validerFormulaire(biographie, specialite, couleur){
         $coulMsg.append('Cette couleur existe deja').removeClass('d-none');
     }
     return validForm;
+
 }
-function afficheEquipe(){
+/**function afficheEquipe(nom,specialite){
     const listeEquipe=$('ul');
     listeEquipe.empty();
-    equipe.listeJournaliste.forEach((jounaliste)=>{
-    listeEquipe.append(`<li class="list-group-item">${jounaliste.nom}<span class="ms-2 badge rounded-pill">${jounaliste.specialit}</span> </li>`);
-    listeEquipe.find('span').last().css('background-color',jounaliste.couleu)
+    sesEquipe.forEach((journalite)=>{
+        listeEquipe.append(`<li class="list-group-item">${journalite.nom}<span class="ms-2 badge rounded-pill">${journalite.specialit}</span> </li>`);
+        listeEquipe.find('span').last().css('background-color',journalite.couleu)
     })
-}
+}**/
+function afficheEquipe(nom,specialite){
+    const listeEquipe=$('ul');
+    listeEquipe.empty();
 
+        listeEquipe.append(`<li class="list-group-item">${nom}<span class="ms-2 badge rounded-pill">${specialite}</span> </li>`);
+        listeEquipe.find('span').last().css('background-color',journalite.couleu)
+
+}
+const sesEquipe=JSON.parse(sessionStorage.getItem('journalis'))
+afficheEquipe(sesEquipe.nom,sesEquipe.specilit);
